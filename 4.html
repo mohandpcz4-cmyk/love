@@ -1,0 +1,648 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>𝑆 💞</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&display=swap"
+    rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            burgundy: { DEFAULT: '#4a0f2e', light: '#6b1a42', pale: '#f9e8f0' },
+            blush: { 50: '#fdf2f8', 100: '#fce7f3', 200: '#fbcfe8' }
+          },
+          fontFamily: {
+            cairo: ['Cairo', 'sans-serif'],
+            playfair: ['"Playfair Display"', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(160deg, #fdf2f8 0%, #fff5fb 40%, #ffffff 100%);
+      min-height: 100vh;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+    }
+
+    .glass-dark {
+      background: rgba(74, 15, 46, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(74, 15, 46, 0.12);
+    }
+
+    .section-fade {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .section-fade.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Radio card styling */
+    .radio-option input[type="radio"] {
+      display: none;
+    }
+
+    .radio-label {
+      display: block;
+      cursor: pointer;
+      padding: 14px 18px;
+      border: 2px solid #e5e7eb;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.8);
+      transition: all .25s ease;
+      font-size: 15px;
+      color: #374151;
+      line-height: 1.5;
+    }
+
+    .radio-option input[type="radio"]:checked+.radio-label {
+      border-color: #4a0f2e;
+      background: #f9e8f0;
+      color: #4a0f2e;
+      font-weight: 600;
+      box-shadow: 0 0 0 3px rgba(74, 15, 46, 0.12);
+    }
+
+    .radio-label:hover {
+      border-color: #c084aa;
+      background: #fff0f7;
+    }
+
+    /* Heart pulse */
+    @keyframes heartbeat {
+
+      0%,
+      100% {
+        transform: scale(1)
+      }
+
+      50% {
+        transform: scale(1.12)
+      }
+    }
+
+    .heartbeat {
+      animation: heartbeat 2s ease-in-out infinite;
+    }
+
+    /* Float */
+    @keyframes floatUp {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-8px)
+      }
+    }
+
+    .float {
+      animation: floatUp 3.5s ease-in-out infinite;
+    }
+
+    /* Shimmer on celebrate button */
+    @keyframes shimmer {
+      0% {
+        background-position: -400px 0
+      }
+
+      100% {
+        background-position: 400px 0
+      }
+    }
+
+    .btn-shimmer {
+      background: linear-gradient(90deg, #4a0f2e 0%, #7b2d52 40%, #4a0f2e 80%);
+      background-size: 400px 100%;
+      animation: shimmer 3s infinite linear;
+    }
+
+    /* Memory image */
+    .memory-img {
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      width: 100%;
+      border-radius: 18px;
+    }
+
+    .memory-card {
+      overflow: hidden;
+      border-radius: 18px;
+      position: relative;
+    }
+
+    .memory-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(74, 15, 46, 0.55));
+      padding: 8px;
+      border-radius: 0 0 18px 18px;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #fdf2f8;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #d8a0be;
+      border-radius: 10px;
+    }
+
+    /* Modal */
+    #modal {
+      display: none;
+    }
+
+    #modal.open {
+      display: flex;
+    }
+
+    @keyframes modalPop {
+      0% {
+        transform: scale(.7);
+        opacity: 0
+      }
+
+      80% {
+        transform: scale(1.04)
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1
+      }
+    }
+
+    .modal-box {
+      animation: modalPop .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, #e8b4cc, transparent);
+      margin: 28px 0;
+    }
+  </style>
+</head>
+
+<body class="font-cairo">
+
+  <!-- ═══════════════════════════════════════ -->
+  <!--  MAIN WRAPPER -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="max-w-md mx-auto px-4 py-8 min-h-screen flex flex-col gap-6">
+
+    <!-- ══════════════════════════════════════ -->
+    <!--  SECTION 1: HERO                      -->
+    <!-- ══════════════════════════════════════ -->
+    <section id="hero"
+      class="glass rounded-3xl p-8 text-center shadow-xl shadow-pink-100 flex flex-col items-center gap-5">
+      <!-- Floating emoji -->
+      <div class="float text-5xl mb-1">🎀</div>
+
+      <!-- Eyebrow -->
+      <p class="text-xs tracking-[.22em] uppercase text-gray-400 font-playfair">A Special Gift</p>
+
+      <!-- Main title -->
+      <h1 class="font-playfair text-3xl font-bold text-burgundy leading-snug">
+        Today is Us dayy
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="font-playfair italic text-gray-500 text-lg">✨ Let the celebration begin</p>
+
+      <!-- Decorative dots -->
+      <div class="flex gap-2 my-1">
+        <span class="w-2 h-2 rounded-full bg-pink-300"></span>
+        <span class="w-2 h-2 rounded-full bg-burgundy opacity-40"></span>
+        <span class="w-2 h-2 rounded-full bg-pink-300"></span>
+      </div>
+
+      <!-- CTA Button -->
+      <button id="startQuizBtn"
+        class="glass-dark text-burgundy font-bold py-3 px-8 rounded-full text-base border border-burgundy/20 hover:bg-burgundy hover:text-white transition-all duration-300 shadow-md hover:shadow-burgundy/20 hover:shadow-lg active:scale-95">
+        ابدأي الكويز ⬅
+      </button>
+
+      <!-- Small hint -->
+      <p class="text-xs text-gray-400">اثبتي إنك تعرفيني كويس 😏</p>
+    </section>
+
+    <!-- ══════════════════════════════════════ -->
+    <!--  SECTION 2: QUIZ                      -->
+    <!-- ══════════════════════════════════════ -->
+    <section id="quiz" class="hidden section-fade flex flex-col gap-5">
+
+      <!-- Header card -->
+      <div class="glass rounded-3xl p-6 text-center shadow-lg shadow-pink-100">
+        <p class="text-xs tracking-widest uppercase text-gray-400 font-playfair mb-2">✦ Challenge ✦</p>
+        <h2 class="font-playfair text-2xl font-bold text-burgundy">!Quick Quiz for Shaza</h2>
+        <p class="text-gray-500 text-sm mt-1">جاوبي صح عشان تعرفي تعدي 😤</p>
+      </div>
+
+      <!-- Question 1 -->
+      <div class="glass rounded-2xl p-5 shadow-md shadow-pink-50">
+        <p class="font-bold text-burgundy mb-4 text-base">
+          <span
+            class="bg-burgundy text-white text-xs rounded-full w-6 h-6 inline-flex items-center justify-center ml-2">1</span>
+          بتحبي ايه اكتر؟
+        </p>
+        <div class="flex flex-col gap-3">
+          <div class="radio-option">
+            <input type="radio" name="q1" id="q1_1" value="wrong">
+            <label class="radio-label" for="q1_1">⚽ ميسي</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" name="q1" id="q1_2" value="wrong">
+            <label class="radio-label" for="q1_2">🍇 محشي ورق عنب</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" name="q1" id="q1_3" value="correct">
+            <label class="radio-label" for="q1_3">🌸 انا</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="glass rounded-2xl p-5 shadow-md shadow-pink-50">
+        <p class="font-bold text-burgundy mb-4 text-base">
+          <span
+            class="bg-burgundy text-white text-xs rounded-full w-6 h-6 inline-flex items-center justify-center ml-2">2</span>
+          لو جيت في يوم وقولتلك مش قادر أعمليلي أكل.. هتعملي ايه؟
+        </p>
+        <div class="flex flex-col gap-3">
+          <div class="radio-option">
+            <input type="radio" name="q2" id="q2_1" value="wrong">
+            <label class="radio-label" for="q2_1">😤 هتقولي انا مش قادرة قوم اعمليلي لنفسك</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" name="q2" id="q2_2" value="correct">
+            <label class="radio-label" for="q2_2">🥰 هتقولي ارتاح يا حبيبي وانا هعملنا اكل دلوقتي</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" name="q2" id="q2_3" value="wrong">
+            <label class="radio-label" for="q2_3">🚪 روح كل عند مامتك وسبني انام</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 3 -->
+      <div class="glass rounded-2xl p-5 shadow-md shadow-pink-50">
+        <p class="font-bold text-burgundy mb-4 text-base">
+          <span
+            class="bg-burgundy text-white text-xs rounded-full w-6 h-6 inline-flex items-center justify-center ml-2">3</span>
+          لو ف يوم مخدتش بالي وكسرت مكياجك..
+        </p>
+        <div class="flex flex-col gap-3">
+          <div class="radio-option">
+            <input type="radio" name="q3" id="q3_1" value="correct">
+            <label class="radio-label" for="q3_1">❤️ فدايا الف مكياج</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" name="q3" id="q3_2" value="wrong">
+            <label class="radio-label" for="q3_2">🙄 هتقولي ان عادي كده كده الرجالة ديما غبية</label>
+          </div>
+          <div class="radio-option">
+            <input type="radio" name="q3" id="q3_3" value="wrong">
+            <label class="radio-label" for="q3_3">😡 هتزعلي وتقولي مش هعديهالك ونتخانق</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button id="submitQuizBtn"
+        class="w-full bg-burgundy text-white font-bold py-4 rounded-xl text-base hover:bg-burgundy-light transition-all duration-300 shadow-lg shadow-burgundy/25 active:scale-95 mt-1">
+        تأكيد الإجابات ✓
+      </button>
+    </section>
+
+    <!-- ══════════════════════════════════════ -->
+    <!--  SECTION 3: MODAL (Wrong Answer)      -->
+    <!-- ══════════════════════════════════════ -->
+    <div id="modal" class="fixed inset-0 z-50 items-center justify-center p-6"
+      style="background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);">
+      <div class="modal-box glass rounded-3xl p-8 text-center max-w-sm w-full shadow-2xl">
+        <div class="text-6xl mb-4">😡</div>
+        <h3 class="font-bold text-xl text-burgundy mb-2 font-cairo">طب مفيش مفاجآت! 💔</h3>
+        <p class="text-gray-500 text-sm mb-6">فكري كويس وحاولي تاني 😤</p>
+        <button id="tryAgainBtn"
+          class="bg-burgundy text-white font-bold py-3 px-8 rounded-xl w-full hover:bg-burgundy-light transition-all duration-300 active:scale-95">
+          حاولي تاني 🔄
+        </button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════ -->
+    <!--  SECTIONS 4-6: POST-QUIZ (hidden)     -->
+    <!-- ══════════════════════════════════════ -->
+    <div id="postQuiz" class="hidden flex flex-col gap-6">
+
+      <!-- ─── Celebration ─── -->
+      <section class="glass rounded-3xl p-7 text-center shadow-xl shadow-pink-100 section-fade">
+        <p class="text-xs tracking-[.2em] uppercase text-gray-400 font-playfair mb-2">✦ A Celebration ✦</p>
+        <h2 class="font-playfair text-2xl font-bold text-burgundy mb-1">!Let's Celebrate Shaza 🥰</h2>
+        <div class="divider"></div>
+        <button id="celebrateBtn"
+          class="btn-shimmer text-white font-bold py-3 px-10 rounded-full text-sm tracking-widest uppercase shadow-lg shadow-burgundy/30 active:scale-95 transition-transform duration-150">
+          🎊 Celebrate!
+        </button>
+      </section>
+
+      <!-- ─── Memories ─── -->
+      <section class="flex flex-col gap-4 section-fade">
+        <div class="text-center">
+          <p class="text-xs tracking-[.2em] uppercase text-gray-400 font-playfair">✦ Memories ✦</p>
+          <h2 class="font-playfair text-2xl font-bold text-burgundy mt-1">Our Beautiful Moments</h2>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <!-- Memory 1 -->
+          <div class="memory-card shadow-md">
+            <img src="assets/1.jpeg" alt="Memory" class="memory-img">
+            <div class="memory-overlay">
+              <p class="text-white text-xs text-center font-semibold">my baby</p>
+            </div>
+          </div>
+          <!-- Memory 2 -->
+          <div class="memory-card shadow-md">
+            <img src="assets/2.jpeg" alt="Memory" class="memory-img">
+            <div class="memory-overlay">
+              <p class="text-white text-xs text-center font-semibold">i luv ur eyes</p>
+            </div>
+          </div>
+          <!-- Memory 3 -->
+          <div class="memory-card shadow-md">
+            <img src="assets/3.jpeg" alt="Memory" class="memory-img">
+            <div class="memory-overlay">
+              <p class="text-white text-xs text-center font-semibold">sweet us</p>
+            </div>
+          </div>
+          <!-- Memory 4 -->
+          <div class="memory-card shadow-md">
+            <img src="assets/4.jpeg" alt="Memory" class="memory-img">
+            <div class="memory-overlay">
+              <p class="text-white text-xs text-center font-semibold">beautiful</p>
+            </div>
+          </div>
+          <!-- Memory 5 -->
+          <div class="memory-card shadow-md">
+            <img src="assets/5.jpeg" alt="Memory" class="memory-img">
+            <div class="memory-overlay">
+              <p class="text-white text-xs text-center font-semibold">us?</p>
+            </div>
+          </div>
+          <!-- Memory 6 -->
+          <div class="memory-card shadow-md">
+            <img src="assets/6.jpeg" alt="Memory" class="memory-img">
+            <div class="memory-overlay">
+              <p class="text-white text-xs text-center font-semibold">i need this</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── Message ─── -->
+      <section class="rounded-3xl p-7 shadow-xl section-fade" style="background:#eeb4cc;">
+        <p class="text-center text-xl mb-4 heartbeat" style="color:#4a0f2e;">✨ من القلب ✨</p>
+        <h2 class="font-playfair text-2xl font-bold text-center mb-5" style="color:#4a0f2e;">Shaza</h2>
+
+        <div
+          style="height:1px;background:linear-gradient(to right,transparent,rgba(74,15,46,0.25),transparent);margin:28px 0;">
+        </div>
+
+        <p class="leading-8 text-sm text-right mb-5 font-cairo" style="color:#4a0f2e;">
+          كل سنة وانتي معايا يا حبيبي، وكل سنة وانتي السبب في كل الراحة والسعادة اللي بقيت بحس بيها.
+          يارب نفضل دايماً معايا، ونعيش سوا أيام كتير حلوة وخفيفة، وأفضل أشوفك مبسوطة ومرتاحة طول العمر ❤️
+        </p>
+
+        <div
+          style="height:1px;background:linear-gradient(to right,transparent,rgba(74,15,46,0.25),transparent);margin:28px 0;">
+        </div>
+
+        <p class="font-playfair italic text-sm leading-7 text-left mb-5" dir="ltr" style="color:#4a0f2e;opacity:0.85;">
+            I really can't explain how much you mean to me, my love. With you, my girl, everything feels softer, safer, and happier. Your care, your words, and even the smallest things you do always make my heart feel so full. I hope we always stay this close...
+        </p>
+
+        <p class="text-right font-bold text-base" style="color:#4a0f2e;">❤️ luv u</p>
+      </section>
+
+      <!-- ─── Video ─── -->
+      <section class="glass rounded-3xl p-6 text-center shadow-xl shadow-pink-100 section-fade">
+        <p class="text-xs tracking-[.2em] uppercase text-gray-400 font-playfair mb-2">✦ A Vid with us ✦</p>
+        <h2 class="font-playfair text-2xl font-bold text-burgundy mb-5">🎬 Watch This</h2>
+
+        <div class="rounded-2xl overflow-hidden shadow-lg border border-pink-100 bg-black">
+          <video controls playsinline class="w-full" style="min-height:380px; max-height:560px; object-fit:cover;"
+            poster="https://via.placeholder.com/400x560/fdf2f8/4a0f2e?text=♡+Love+You+Sazaaaa">
+            <source src="assets/vid.mp4" type="video/mp4">
+            <p class="text-white p-6 text-sm">قريباً.. 💫</p>
+          </video>
+        </div>
+
+        <p class="text-xs text-gray-400 mt-3 font-cairo">🎀🎀🎀🎀🎀🎀</p>
+      </section>
+
+    </div><!-- /postQuiz -->
+
+    <!-- Footer -->
+    <footer class="text-center py-4 mt-2">
+      <p class="text-xs text-gray-400 tracking-wide font-playfair">𝑆 &mdash; 𝑀 &mdash; 𝐹𝑜𝑟𝑒𝑣𝑒𝑟 🤭</p>
+    </footer>
+
+  </div><!-- /max-w-md -->
+
+  <!-- ═══════════════════════════════════════ -->
+  <!--  JAVASCRIPT                            -->
+  <!-- ═══════════════════════════════════════ -->
+  <script>
+      (function () {
+
+        /* ── Elements ── */
+        const heroSection = document.getElementById('hero');
+        const quizSection = document.getElementById('quiz');
+        const postQuizDiv = document.getElementById('postQuiz');
+        const modal = document.getElementById('modal');
+        const startQuizBtn = document.getElementById('startQuizBtn');
+        const submitQuizBtn = document.getElementById('submitQuizBtn');
+        const tryAgainBtn = document.getElementById('tryAgainBtn');
+        const celebrateBtn = document.getElementById('celebrateBtn');
+
+        /* ── Helpers ── */
+        function revealFades(parent) {
+          parent.querySelectorAll('.section-fade').forEach((el, i) => {
+            setTimeout(() => el.classList.add('visible'), i * 160);
+          });
+        }
+
+        function openModal() {
+          modal.classList.add('open');
+        }
+
+        function closeModal() {
+          modal.classList.remove('open');
+        }
+
+        /* ── Start Quiz ── */
+        startQuizBtn.addEventListener('click', () => {
+          heroSection.style.transition = 'opacity .5s ease, transform .5s ease';
+          heroSection.style.opacity = '0';
+          heroSection.style.transform = 'translateY(-20px)';
+          setTimeout(() => {
+            heroSection.classList.add('hidden');
+            quizSection.classList.remove('hidden');
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => { quizSection.classList.add('visible'); });
+            });
+          }, 450);
+        });
+
+        /* ══════════════════════════════════════════
+           REAL-TIME RADIO VALIDATION
+           – wrong  → block selection + show modal
+           – correct → allow selection normally
+        ══════════════════════════════════════════ */
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+          radio.addEventListener('click', function (e) {
+            if (this.value === 'wrong') {
+              /* Prevent the radio from ever becoming checked */
+              e.preventDefault();
+              this.checked = false;
+              /* Instantly show the error modal */
+              openModal();
+            }
+            /* value === 'correct' → do nothing, browser selects it normally */
+          });
+        });
+
+        /* ── Try Again (close modal, keep correct selections intact) ── */
+        tryAgainBtn.addEventListener('click', closeModal);
+
+        /* ── Close modal on dark overlay click ── */
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal();
+        });
+
+        /* ══════════════════════════════════════════
+           SUBMIT – only checks all 3 are answered
+           (they can only ever be correct ones)
+        ══════════════════════════════════════════ */
+        submitQuizBtn.addEventListener('click', () => {
+          const a1 = document.querySelector('input[name="q1"]:checked');
+          const a2 = document.querySelector('input[name="q2"]:checked');
+          const a3 = document.querySelector('input[name="q3"]:checked');
+
+          if (!a1 || !a2 || !a3) {
+            shakeBtn(submitQuizBtn);
+            showToast('اجب على كل الاسئلة الاول! 😅');
+            return;
+          }
+
+          /* All 3 answered → must be correct, celebrate! */
+          onQuizSuccess();
+        });
+
+        /* ── Quiz Success ── */
+        function onQuizSuccess() {
+          launchConfetti();
+          quizSection.style.transition = 'opacity .5s ease, transform .5s ease';
+          quizSection.style.opacity = '0';
+          quizSection.style.transform = 'translateY(-20px)';
+          setTimeout(() => {
+            quizSection.classList.add('hidden');
+            postQuizDiv.classList.remove('hidden');
+            postQuizDiv.style.display = 'flex';
+            postQuizDiv.style.flexDirection = 'column';
+            postQuizDiv.style.gap = '1.5rem';
+            revealFades(postQuizDiv);
+            /* ── Scroll to top so user starts at the Celebration section ── */
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }, 500);
+        }
+
+        /* ── Celebrate button ── */
+        celebrateBtn.addEventListener('click', () => {
+          launchConfetti();
+          celebrateBtn.textContent = '🎉 Happy Birthday Giftify_EG! 🎉';
+          setTimeout(() => { celebrateBtn.textContent = '🎊 Celebrate!'; }, 3500);
+        });
+
+        /* ── Confetti launcher ── */
+        function launchConfetti() {
+          const colors = ['#4a0f2e', '#e8b4cc', '#f9e8f0', '#fff', '#ff80b5', '#d4608a'];
+          const end = Date.now() + 3200;
+          const frame = () => {
+            confetti({ particleCount: 6, angle: 60, spread: 60, origin: { x: 0 }, colors });
+            confetti({ particleCount: 6, angle: 120, spread: 60, origin: { x: 1 }, colors });
+            if (Date.now() < end) requestAnimationFrame(frame);
+          };
+          frame();
+          confetti({ particleCount: 120, spread: 90, origin: { y: 0.55 }, colors });
+        }
+
+        /* ── Shake helper ── */
+        function shakeBtn(btn) {
+          btn.style.transition = 'transform .07s ease';
+          [6, -6, 5, -5, 4, -4, 0].forEach((x, i) => {
+            setTimeout(() => { btn.style.transform = `translateX(${x}px)`; }, i * 70);
+          });
+        }
+
+        /* ── Toast helper ── */
+        function showToast(msg) {
+          const t = document.createElement('div');
+          t.textContent = msg;
+          t.style.cssText = [
+            'position:fixed', 'bottom:24px', 'left:50%', 'transform:translateX(-50%)',
+            'background:rgba(74,15,46,0.92)', 'color:white', 'padding:10px 22px',
+            'border-radius:30px', 'font-size:14px', 'z-index:9999',
+            "font-family:'Cairo',sans-serif", 'white-space:nowrap',
+            'opacity:0', 'transition:opacity .3s ease'
+          ].join(';');
+          document.body.appendChild(t);
+          requestAnimationFrame(() => { t.style.opacity = '1'; });
+          setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 2800);
+        }
+
+      })();
+  </script>
+</body>
+
+</html>

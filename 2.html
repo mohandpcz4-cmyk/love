@@ -1,0 +1,821 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>𝑆 💞</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:linear-gradient(145deg,#0d0b09 0%,#1a1410 45%,#0f0c08 100%);min-height:100vh;overflow-x:hidden}
+.page{display:none;min-height:100vh;animation:fadeIn .5s ease}
+.page.active{display:flex;flex-direction:column;align-items:center;justify-content:center}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-12px) scale(1.08)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+@keyframes heartFloat{0%{opacity:.6;transform:translateY(0)}100%{opacity:0;transform:translateY(-100vh)}}
+@keyframes spin{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes shimmer{0%{opacity:.7}50%{opacity:1}100%{opacity:.7}}
+
+#page-landing{text-align:center;padding:2rem;position:relative;overflow:hidden}
+.landing-emoji{font-size:80px;animation:float 3s ease-in-out infinite;display:block;margin-bottom:24px}
+.landing-title{font-size:clamp(2rem,6vw,4rem);font-weight:900;color:#e8c98a;line-height:1.2;margin-bottom:12px;text-shadow:0 2px 24px rgba(200,155,90,.25)}
+.landing-sub{font-size:clamp(1rem,2.5vw,1.3rem);color:#9a8060;margin-bottom:48px}
+
+.btn-primary{padding:18px 64px;background:linear-gradient(135deg,#8b6020,#c89b5a);color:#0d0b09;border:none;border-radius:50px;font-family:'Cairo',sans-serif;font-size:clamp(1rem,2.5vw,1.2rem);font-weight:800;cursor:pointer;box-shadow:0 12px 32px rgba(200,155,90,.22);transition:all .3s;position:relative;z-index:1}
+.btn-primary:hover{transform:scale(1.06);box-shadow:0 16px 40px rgba(200,155,90,.38)}
+.btn-primary:active{transform:scale(.96)}
+.heart-float{position:fixed;font-size:24px;pointer-events:none;z-index:0;animation:heartFloat linear infinite}
+
+#page-quiz{padding:2rem;text-align:center;gap:0}
+.quiz-title{font-size:clamp(1.6rem,4vw,2.4rem);color:#e8c98a;margin-bottom:8px;font-weight:800}
+.quiz-hint{font-size:14px;color:#9a8060;margin-bottom:32px}
+.slider-wrap{position:relative;width:100%;max-width:440px;padding:0 1rem;transition:transform .6s cubic-bezier(.4,0,.2,1);transform-origin:center}
+.slider-wrap.tilted{transform:rotate(-45deg)}
+.slider-wrap.straight{transform:rotate(0deg)}
+input[type=range]{width:100%;accent-color:#c89b5a;cursor:pointer;height:6px}
+.slider-labels{display:flex;justify-content:space-between;margin-top:8px;font-size:15px;color:#9a8060}
+.slider-val{font-size:18px;color:#e8c98a;font-weight:700;margin-top:12px}
+
+.choices{display:flex;flex-direction:column;gap:16px;align-items:center;width:100%;max-width:360px;margin:0 auto}
+.choice-btn{padding:16px 48px;border-radius:50px;font-family:'Cairo',sans-serif;font-size:17px;font-weight:700;cursor:pointer;width:100%;transition:all .25s}
+.choice-primary{background:linear-gradient(135deg,#8b6020,#c89b5a);color:#0d0b09;border:none;box-shadow:0 8px 24px rgba(200,155,90,.22)}
+.choice-secondary{background:rgba(200,155,90,.08);color:#c89b5a;border:1.5px solid rgba(200,155,90,.3)}
+.choice-btn:hover{transform:scale(1.04) translateX(-4px)}
+
+.q3-wrap{display:flex;gap:24px;align-items:center;justify-content:center;position:static;flex-wrap:wrap;min-height:200px;width:100%;overflow:visible}
+.btn-yes{padding:16px 40px;background:linear-gradient(135deg,#8b6020,#d4a843);color:#0d0b09;border:none;border-radius:50px;font-family:'Cairo',sans-serif;font-size:18px;font-weight:800;cursor:pointer;box-shadow:0 8px 32px rgba(212,168,67,.35);transition:transform .3s ease;display:flex;align-items:center;gap:8px;position:relative;z-index:2;transform-origin:center;white-space:nowrap}
+.btn-yes:hover{filter:brightness(1.1)}
+.btn-no{padding:16px 40px;background:rgba(139,60,30,.12);color:#c0604a;border:2.5px solid #a04030;border-radius:50px;font-family:'Cairo',sans-serif;font-size:18px;font-weight:800;cursor:pointer;transition:left .4s cubic-bezier(.25,.46,.45,.94),top .4s cubic-bezier(.25,.46,.45,.94);position:fixed;z-index:9999;white-space:nowrap;box-shadow:0 4px 16px rgba(160,60,40,.2)}
+.btn-no:hover{background:rgba(160,60,40,.25)}
+.q3-hint{margin-top:24px;font-size:14px;color:#c89b5a;opacity:0;transition:opacity .4s}
+.btn-next{margin-top:32px;padding:14px 40px;background:linear-gradient(135deg,#8b6020,#c89b5a);color:#0d0b09;border:none;border-radius:50px;font-family:'Cairo',sans-serif;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(200,155,90,.22);transition:all .3s}
+.btn-next:hover{transform:scale(1.05)}
+
+#page-counter{padding:3rem 2rem;max-width:640px;margin:0 auto;width:100%}
+.counter-label{text-align:center;font-size:14px;color:#9a8060;margin-bottom:16px}
+.counter-grid{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.counter-card{text-align:center;background:rgba(30,24,18,.85);backdrop-filter:blur(16px);border-radius:16px;padding:16px 20px;min-width:80px;border:1px solid rgba(200,155,90,.2);box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.counter-num{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;color:#e8c98a;line-height:1;animation:shimmer 2.5s ease-in-out infinite}
+.counter-unit{font-size:12px;color:#9a8060;margin-top:4px}
+.typewriter-box{background:rgba(30,24,18,.7);backdrop-filter:blur(20px);border-radius:24px;padding:28px 32px;border:1px solid rgba(200,155,90,.18);max-height:40vh;overflow:auto;box-shadow:0 8px 32px rgba(0,0,0,.35)}
+.typewriter-text{font-size:clamp(1rem,2.5vw,1.15rem);line-height:2.2;color:#f0e0c0;white-space:pre-wrap}
+.cursor{animation:blink .6s infinite;color:#d4a843}
+
+.speed-btns{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);display:flex;flex-direction:row;gap:8px;z-index:999;background:rgba(30,24,18,.8);backdrop-filter:blur(16px);border-radius:50px;padding:8px 16px;border:1px solid rgba(200,155,90,.2);box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.speed-btn{padding:8px 18px;border-radius:50px;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:1px solid rgba(200,155,90,.25);transition:all .2s}
+.speed-btn.active{background:linear-gradient(135deg,#8b6020,#c89b5a);color:#0d0b09;border-color:transparent}
+.speed-btn:not(.active){background:rgba(200,155,90,.07);color:#c89b5a}
+
+.btn-continue{margin-top:40px;padding:16px 56px;background:linear-gradient(135deg,#8b6020,#d4a843);color:#0d0b09;border:none;border-radius:50px;font-family:'Cairo',sans-serif;font-size:18px;font-weight:800;cursor:pointer;box-shadow:0 12px 32px rgba(212,168,67,.28);display:none;transition:all .3s}
+.btn-continue:hover{transform:scale(1.05)}
+.counter-center{text-align:center}
+
+.site-footer{width:100%;margin-top:24px;padding:36px 2rem 28px;border-top:1px solid rgba(200,155,90,.15);background:rgba(10,8,5,.6);backdrop-filter:blur(16px);text-align:center}
+.footer-socials{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.footer-link{display:flex;flex-direction:column;align-items:center;gap:8px;color:#9a8060;text-decoration:none;font-size:13px;font-weight:600;transition:color .25s}
+.footer-link:hover{color:#e8c98a}
+.footer-link svg{width:26px;height:26px;transition:transform .25s;fill:currentColor}
+.footer-link:hover svg{transform:scale(1.15)}
+.footer-link span{font-family:'Cairo',sans-serif}
+.footer-link.fb svg{fill:#1877F2}
+.footer-link.fb:hover svg{fill:#4a9dff}
+.footer-divider{width:40px;height:1px;background:rgba(200,155,90,.2);margin:0 auto 20px}
+.footer-cta{font-size:14px;color:#9a8060;margin-bottom:10px;font-family:'Cairo',sans-serif}
+.footer-copy{font-size:12px;color:rgba(154,128,96,.5);direction:ltr;font-family:'Cairo',sans-serif}
+</style>
+</head>
+
+<body>
+
+<div id="hearts-container"></div>
+
+<!-- الصفحة الأولى -->
+<div id="page-landing" class="page active">
+  <span class="landing-emoji">💝</span>
+  <h1 class="landing-title">هدية صغيرة</h1>
+  <p class="landing-sub">من قلبي ليكي ❤️</p>
+  <button class="btn-primary" onclick="goTo('quiz')">ابدئي هنا ✨</button>
+</div>
+
+<!-- صفحة الأسئلة -->
+<div id="page-quiz" class="page" style="padding:2rem;text-align:center;gap:0">
+
+  <div id="q1" style="max-width:480px;width:100%">
+    <div id="q1-emoji" style="font-size:64px;margin-bottom:16px;transition:all .3s">😔</div>
+    <h2 class="quiz-title">بتحبيني قد ايه؟</h2>
+    <p class="quiz-hint">اسكروول يمين وشمال</p>
+
+    <div class="slider-wrap straight" id="slider-wrap" style="margin:0 auto">
+      <input type="range" min="0" max="100" value="50" id="love-slider" oninput="dragSlider(this.value)" onchange="releaseSlider(this.value)" step="1"/>
+      <div class="slider-labels"><span>😒 مش بحبك</span><span>❤️‍🔥 كتير أوي</span></div>
+      <div class="slider-val" id="slider-val">50%</div>
+    </div>
+
+    <button class="btn-next" onclick="validateQ1()">التالي ◀</button>
+  </div>
+
+  <div id="q2" style="display:none;max-width:480px;width:100%">
+    <div style="font-size:56px;margin-bottom:16px">🤔</div>
+    <h2 class="quiz-title">زعلانه مني في حاجة؟</h2>
+    <div class="choices" style="margin-top:40px">
+      <button class="choice-btn choice-primary" onclick="handleQ2Choice(this, true)">خالص 😌</button>
+      <button class="choice-btn choice-secondary" onclick="handleQ2Choice(this, false)">بصراحة كام حاجة 😅</button>
+      <button class="choice-btn choice-secondary" onclick="handleQ2Choice(this, false)">حاجات كتير 😤</button>
+    </div>
+  </div>
+
+  <div id="q3" style="display:none;max-width:480px;width:100%;text-align:center">
+    <div style="font-size:56px;margin-bottom:16px;animation:spin 2s ease-in-out infinite;display:inline-block">💝</div>
+    <h2 class="quiz-title" style="margin-bottom:40px">بتحبيني؟</h2>
+    <div class="q3-wrap" id="q3-wrap">
+      <button class="btn-yes" id="btn-yes" onclick="goTo('counter')">❤️ اه</button>
+      <button class="btn-no" id="btn-no" onmouseenter="moveNo()" onclick="moveNo()">لا</button>
+    </div>
+    <p class="q3-hint" id="q3-hint"></p>
+  </div>
+</div>
+
+<!-- صفحة العداد والكتابة -->
+<div id="page-counter" class="page" style="flex-direction:column;justify-content:flex-start;padding-top:3rem">
+  <div style="width:100%;max-width:640px;padding:0 2rem">
+    <p class="counter-label">من يوم ما بدأت الحكاية ✨</p>
+
+    <div class="counter-grid">
+      <div class="counter-card"><div class="counter-num" id="cnt-years">0</div><div class="counter-unit">سنة</div></div>
+      <div class="counter-card"><div class="counter-num" id="cnt-months">0</div><div class="counter-unit">شهر</div></div>
+      <div class="counter-card"><div class="counter-num" id="cnt-days">0</div><div class="counter-unit">يوم</div></div>
+      <div class="counter-card"><div class="counter-num" id="cnt-hours">0</div><div class="counter-unit">ساعة</div></div>
+    </div>
+
+    <div class="typewriter-box" id="typewriter-box">
+      <div class="typewriter-text" id="typewriter-text"><span class="cursor">|</span></div>
+    </div>
+
+    <div class="counter-center">
+      <button class="btn-continue" id="btn-continue" onclick="window.location.href='3.html'">متابعة ✨</button>
+    </div>
+  </div>
+</div>
+
+<!-- أزرار سرعة الكتابة -->
+<div class="speed-btns" id="speed-btns" style="display:none">
+  <button class="speed-btn" onclick="setSpeed(0.5,this)">⚡ x0.5</button>
+  <button class="speed-btn active" onclick="setSpeed(1,this)">⚡ x1</button>
+  <button class="speed-btn" onclick="setSpeed(2,this)">⚡ x2</button>
+  <button class="speed-btn" onclick="setSpeed(3,this)">⚡ x3</button>
+</div>
+
+<!-- الفوتر -->
+<footer class="site-footer" id="site-footer">
+  <div class="footer-socials">
+    <a href="https://www.tiktok.com/@mohandz4" target="_blank" rel="noopener noreferrer" class="footer-link tiktok">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path d="M12.525.02c1.31-.02 2.61-.01 3.91.04.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 2.78-1.15 5.54-3.33 7.37-1.94 1.62-4.64 2.06-7.05 1.3-2.75-.86-4.94-3.23-5.34-6.13-.39-2.82.72-5.83 3.08-7.56 2.07-1.5 4.81-1.74 7.15-.92v4.06c-1.32-.42-2.84-.28-3.95.53-1.02.74-1.57 2.02-1.39 3.27.17 1.15.99 2.18 2.07 2.58 1.1.41 2.4.24 3.32-.46.91-.68 1.44-1.8 1.47-2.94.02-5.74.01-11.49.01-17.24z"/>
+      </svg>
+      <span>mohand</span>
+    </a>
+
+    <a href="https://www.facebook.com/mohandz4" target="_blank" rel="noopener noreferrer" class="footer-link fb">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+      </svg>
+      <span>mohand</span>
+    </a>
+  </div>
+
+  <p class="footer-cta">𝑺 🎀 𝑴</p>
+  <p class="footer-copy">&copy; اقل حاجة اقدر اقدمها بحبي ليكي بجد يروحي 😍🖐🏽</p>
+</footer>
+
+<script>
+const START_DATE = new Date("2026-10-28T22:00:00");
+const MAX_ATTEMPTS = 2;
+
+let zeroAttempts = 0;
+let aboveAttempts = 0;
+
+// ===== NAVIGATION =====
+function goTo(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  window.scrollTo(0,0);
+  if(id==='counter') initCounter();
+}
+
+// ===== FLOATING HEARTS =====
+const HE=["🤍","✨","💫","🌟"];
+
+for(let i=0;i<8;i++){
+  const h=document.createElement('div');
+  h.className='heart-float';
+  h.textContent=HE[i%4];
+
+  const sz=16+Math.random()*16;
+  const dur=6+Math.random()*5;
+  const del=Math.random()*4;
+
+  h.style.cssText=`font-size:${sz}px;left:${8+i*11}%;bottom:0;animation-duration:${dur}s;animation-delay:${del}s`;
+
+  document.getElementById('hearts-container').appendChild(h);
+}
+
+// ===== BIRD AND FINGER ANIMATION =====
+function triggerBirdAndFingerScenario() {
+  const bird = document.createElement('div');
+  bird.innerHTML = '🐦';
+
+  bird.style.cssText = `
+    position:fixed;
+    font-size:55px;
+    z-index:10005;
+    pointer-events:none;
+    top:${25 + Math.random() * 25}%;
+    left:-100px;
+    transition:left 2.8s linear;
+  `;
+
+  document.body.appendChild(bird);
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      bird.style.left = (window.innerWidth + 100) + 'px';
+    });
+  });
+
+  setTimeout(() => bird.remove(),2800);
+
+  setTimeout(() => {
+    const finger = document.createElement('div');
+    finger.innerHTML = '👆';
+
+    finger.style.cssText = `
+      position:fixed;
+      font-size:75px;
+      z-index:10006;
+      pointer-events:none;
+      left:${window.innerWidth + 100}px;
+      top:${window.innerHeight + 100}px;
+      opacity:0;
+      transform:rotate(-30deg);
+      transition:all 1.8s cubic-bezier(0.19,1,0.22,1);
+    `;
+
+    document.body.appendChild(finger);
+
+    const btn = document.querySelector('#q1 .btn-next');
+    if (!btn) return;
+
+    const rect = btn.getBoundingClientRect();
+    const targetX = rect.left + rect.width / 2 - 35;
+    const targetY = rect.top + rect.height / 2 - 15;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        finger.style.left = targetX + 'px';
+        finger.style.top = targetY + 'px';
+        finger.style.opacity = '1';
+      });
+    });
+
+    setTimeout(() => {
+      finger.style.transition = 'all 0.12s ease';
+      finger.style.transform = 'rotate(-30deg) scale(0.8)';
+
+      setTimeout(() => {
+        finger.style.transform = 'rotate(-30deg) scale(1)';
+        showQ(2);
+
+        setTimeout(() => {
+          finger.style.transition = 'all 0.8s ease-in';
+          finger.style.left = '-120px';
+          finger.style.top = (window.innerHeight + 100) + 'px';
+          finger.style.opacity = '0';
+
+          setTimeout(() => finger.remove(),800);
+        },250);
+      },120);
+    },1800);
+
+  },500);
+}
+
+// ===== SLIDER Q1 =====
+const EM=[
+  {v:0,e:"😔"},
+  {v:20,e:"🙁"},
+  {v:40,e:"😐"},
+  {v:60,e:"🥰"},
+  {v:80,e:"😍"},
+  {v:100,e:"❤️‍🔥"}
+];
+
+function getEmoji(v){
+  for(let i=EM.length-1;i>=0;i--){
+    if(v>=EM[i].v)return EM[i].e;
+  }
+  return "😔";
+}
+
+let sliderLocked=false;
+let isTilted=false;
+let fallRAF=null;
+let snapRAF=null;
+
+function dragSlider(v) {
+  v=parseInt(v);
+  if(sliderLocked)return;
+
+  document.getElementById('slider-val').textContent=v+'%';
+  document.getElementById('q1-emoji').textContent=getEmoji(v);
+}
+
+function releaseSlider(v) {
+  v=parseInt(v);
+  if(sliderLocked)return;
+
+  if(v<50){
+    if(!isTilted){
+      isTilted=true;
+      zeroAttempts++;
+
+      const wrap=document.getElementById('slider-wrap');
+      wrap.classList.remove('straight');
+      wrap.classList.add('tilted');
+
+      startFall(zeroAttempts>=MAX_ATTEMPTS);
+    }
+  }
+  else if(v>50){
+    aboveAttempts++;
+    const willLock=aboveAttempts>=MAX_ATTEMPTS;
+    animateTo100(willLock);
+  }
+}
+
+function animateTo100(willLock) {
+  if(snapRAF)cancelAnimationFrame(snapRAF);
+
+  const slider=document.getElementById('love-slider');
+  const valEl=document.getElementById('slider-val');
+  const emojiEl=document.getElementById('q1-emoji');
+
+  const startVal=parseInt(slider.value);
+  const targetVal=100;
+  const start=performance.now();
+  const duration=400;
+  const easeOut=t=>1-Math.pow(1-t,3);
+
+  snapRAF=requestAnimationFrame(function step(now){
+    const p=Math.min((now-start)/duration,1);
+    const curVal=Math.round(startVal+(targetVal-startVal)*easeOut(p));
+
+    slider.value=curVal;
+    valEl.textContent=curVal+'%';
+    emojiEl.textContent=getEmoji(curVal);
+
+    if(p<1){
+      snapRAF=requestAnimationFrame(step);
+    }else{
+      slider.value=100;
+
+      if(aboveAttempts>=MAX_ATTEMPTS){
+        valEl.textContent='بصي العصفورة! 🐦';
+        emojiEl.textContent='👀';
+        triggerLock();
+        setTimeout(triggerBirdAndFingerScenario,1000);
+      }else{
+        valEl.textContent='100%';
+        emojiEl.textContent=getEmoji(100);
+      }
+    }
+  });
+}
+
+function startFall(willLock){
+  cancelFall();
+
+  const slider=document.getElementById('love-slider');
+  const valEl=document.getElementById('slider-val');
+  const emojiEl=document.getElementById('q1-emoji');
+  const wrap=document.getElementById('slider-wrap');
+
+  const startVal=parseInt(slider.value);
+  const targetVal=willLock?100:50;
+
+  const start=performance.now();
+  const duration=900;
+  const easeOut=t=>1-Math.pow(1-t,3);
+
+  fallRAF=requestAnimationFrame(function step(now){
+    if(!isTilted)return;
+
+    const p=Math.min((now-start)/duration,1);
+    const val=Math.round(startVal+(targetVal-startVal)*easeOut(p));
+
+    slider.value=val;
+    valEl.textContent=val+'%';
+    emojiEl.textContent=getEmoji(val);
+
+    if(p<1){
+      fallRAF=requestAnimationFrame(step);
+    }else{
+      isTilted=false;
+      wrap.classList.remove('tilted');
+      wrap.classList.add('straight');
+
+      slider.value=targetVal;
+
+      if(zeroAttempts>=MAX_ATTEMPTS){
+        valEl.textContent='بصي العصفورة! 🐦';
+        emojiEl.textContent='👀';
+        triggerLock();
+        setTimeout(triggerBirdAndFingerScenario,1000);
+      }else{
+        valEl.textContent=targetVal+'%';
+        emojiEl.textContent=getEmoji(targetVal);
+      }
+    }
+  });
+}
+
+function cancelFall(){
+  if(fallRAF){
+    cancelAnimationFrame(fallRAF);
+    fallRAF=null;
+  }
+}
+
+function triggerLock(){
+  sliderLocked=true;
+
+  const slider=document.getElementById('love-slider');
+  slider.value=100;
+  slider.disabled=true;
+  slider.style.opacity='0.5';
+  slider.style.cursor='not-allowed';
+
+  document.getElementById('slider-val').textContent='بصي العصفورة! 🐦';
+  document.getElementById('q1-emoji').textContent='👀';
+}
+
+// ===== QUIZ NAVIGATION =====
+function showQ(n){
+  ['q1','q2','q3'].forEach(q=>{
+    document.getElementById(q).style.display='none';
+  });
+
+  document.getElementById('q'+n).style.display='block';
+
+  if(n===3)setTimeout(initNoBtn,50);
+}
+
+// ===== Q3 NO BUTTON =====
+let noAtt=0;
+let yesScale=1;
+let yesGrowInterval=null;
+let noX=0;
+let noY=0;
+let noVisible=true;
+
+function initNoBtn(){
+  const no=document.getElementById('btn-no');
+  const yes=document.getElementById('btn-yes');
+
+  const nW=no.offsetWidth||140;
+  const nH=no.offsetHeight||56;
+
+  noX=window.innerWidth-nW-32;
+  noY=window.innerHeight-nH-40;
+
+  no.style.left=noX+'px';
+  no.style.top=noY+'px';
+  no.style.opacity='1';
+
+  no.style.transition='left .35s cubic-bezier(.25,.46,.45,.94), top .35s cubic-bezier(.25,.46,.45,.94), opacity .6s ease';
+
+  noVisible=true;
+  noAtt=0;
+  yesScale=1;
+
+  yes.style.transform='scale(1)';
+  document.getElementById('q3-hint').style.opacity='0';
+
+  clearInterval(yesGrowInterval);
+
+  document.addEventListener('mousemove',chaseNo);
+  document.addEventListener('touchmove',chaseTouchNo,{passive:true});
+}
+
+function growYes(){
+  const yes=document.getElementById('btn-yes');
+  const no=document.getElementById('btn-no');
+  const hint=document.getElementById('q3-hint');
+
+  yesScale=Math.min(yesScale+0.15,999);
+  yes.style.transform='scale('+yesScale+')';
+
+  if(noVisible)keepNoAway();
+
+  const yr=yes.getBoundingClientRect();
+  const coverage=(yr.width*yr.height)/(window.innerWidth*window.innerHeight);
+
+  if(coverage>=0.82&&noVisible){
+    noVisible=false;
+    no.style.opacity='0';
+
+    hint.style.opacity='1';
+    hint.textContent='🫦 مفيش فايدة... اضغطي اه 😍';
+
+    clearInterval(yesGrowInterval);
+
+    document.removeEventListener('mousemove',chaseNo);
+    document.removeEventListener('touchmove',chaseTouchNo);
+  }
+}
+
+function chaseNo(e){
+  if(!noVisible)return;
+  runFromCursor(e.clientX,e.clientY);
+}
+
+function chaseTouchNo(e){
+  if(!noVisible||!e.touches[0])return;
+  runFromCursor(e.touches[0].clientX,e.touches[0].clientY);
+}
+
+function runFromCursor(cx,cy){
+  const no=document.getElementById('btn-no');
+
+  const nW=no.offsetWidth||140;
+  const nH=no.offsetHeight||56;
+
+  const vW=window.innerWidth;
+  const vH=window.innerHeight;
+
+  const bCx=noX+nW/2;
+  const bCy=noY+nH/2;
+
+  const dx=bCx-cx;
+  const dy=bCy-cy;
+  const dist=Math.sqrt(dx*dx+dy*dy);
+
+  if(dist>200)return;
+
+  growYes();
+  noAtt++;
+
+  const hint=document.getElementById('q3-hint');
+
+  if(noAtt>3){
+    hint.style.opacity='1';
+    hint.textContent=noAtt>8?'طفلةةةةة 😂':'لا للصبح بقى 😂';
+  }
+
+  const force=200+Math.random()*60;
+  const angle=Math.atan2(dy,dx);
+
+  let nx=noX+Math.cos(angle)*force;
+  let ny=noY+Math.sin(angle)*force;
+
+  const yes=document.getElementById('btn-yes');
+  const yr=yes.getBoundingClientRect();
+  const margin=55;
+
+  const blocked=(
+    nx+nW/2>yr.left-margin&&
+    nx+nW/2<yr.right+margin&&
+    ny+nH/2>yr.top-margin&&
+    ny+nH/2<yr.bottom+margin
+  );
+
+  if(blocked){
+    const yCx=yr.left+yr.width/2;
+    const yCy=yr.top+yr.height/2;
+    const a2=Math.atan2(ny+nH/2-yCy,nx+nW/2-yCx);
+
+    nx=nx+Math.cos(a2)*150;
+    ny=ny+Math.sin(a2)*150;
+  }
+
+  noX=Math.max(8,Math.min(nx,vW-nW-8));
+  noY=Math.max(8,Math.min(ny,vH-nH-8));
+
+  no.style.left=noX+'px';
+  no.style.top=noY+'px';
+}
+
+function keepNoAway(){
+  const yes=document.getElementById('btn-yes');
+  const no=document.getElementById('btn-no');
+
+  const nW=no.offsetWidth||140;
+  const nH=no.offsetHeight||56;
+
+  const vW=window.innerWidth;
+  const vH=window.innerHeight;
+
+  const yr=yes.getBoundingClientRect();
+  const margin=45;
+
+  if(
+    noX+nW/2>yr.left-margin&&
+    noX+nW/2<yr.right+margin&&
+    noY+nH/2>yr.top-margin&&
+    noY+nH/2<yr.bottom+margin
+  ){
+    const yCx=yr.left+yr.width/2;
+    const yCy=yr.top+yr.height/2;
+
+    const angle=Math.atan2(noY+nH/2-yCy,noX+nW/2-yCx);
+
+    noX=Math.max(8,Math.min(noX+Math.cos(angle)*160,vW-nW-8));
+    noY=Math.max(8,Math.min(noY+Math.sin(angle)*160,vH-nH-8));
+
+    no.style.left=noX+'px';
+    no.style.top=noY+'px';
+  }
+}
+
+function moveNo(){
+  if(!noVisible)return;
+
+  growYes();
+
+  const no=document.getElementById('btn-no');
+
+  const nW=no.offsetWidth||140;
+  const nH=no.offsetHeight||56;
+
+  const vW=window.innerWidth;
+  const vH=window.innerHeight;
+
+  const edge=Math.floor(Math.random()*4);
+
+  if(edge===0){
+    noX=Math.random()*(vW-nW);
+    noY=8;
+  }else if(edge===1){
+    noX=Math.random()*(vW-nW);
+    noY=vH-nH-8;
+  }else if(edge===2){
+    noX=8;
+    noY=Math.random()*(vH-nH);
+  }else{
+    noX=vW-nW-8;
+    noY=Math.random()*(vH-nH);
+  }
+
+  no.style.left=noX+'px';
+  no.style.top=noY+'px';
+
+  noAtt++;
+
+  const hint=document.getElementById('q3-hint');
+  hint.style.opacity='1';
+  hint.textContent=noAtt>5?'مش هينفع صدقي 😂':'عند امك 😂';
+}
+
+// ===== COUNTER =====
+let cntInt=null;
+
+function initCounter(){
+  updateCounter();
+
+  clearInterval(cntInt);
+  cntInt=setInterval(updateCounter,1000);
+
+  startTypewriter();
+}
+
+function updateCounter(){
+  const d=new Date()-START_DATE;
+
+  document.getElementById('cnt-years').textContent=
+    Math.floor(d/(1000*60*60*24*365.25));
+
+  document.getElementById('cnt-months').textContent=
+    Math.floor((d%(1000*60*60*24*365.25))/(1000*60*60*24*30.44));
+
+  document.getElementById('cnt-days').textContent=
+    Math.floor((d%(1000*60*60*24*30.44))/(1000*60*60*24));
+
+  document.getElementById('cnt-hours').textContent=
+    Math.floor((d%(1000*60*60*24))/(1000*60*60));
+}
+
+// ===== TYPEWRITER =====
+const LOVE_TEXT = `من أول يوم شوفتك فيه، حسيت إن في حاجة تغيرت جوايا...
+مش عارف أوصف الإحساس ده بالكلام، بس قلبي كان بيقولي إنك انتي الصح.
+
+كل يوم بيعدي معاكي بيخليني أفهم أكتر ليه الحياة حلوة.
+ضحكتك بتنوّر يومي، وعينيكي بيخلوني حاسس إني في أمان.
+
+أنا مش بكتب كده عشان أقولك حاجة جديدة... أنا بكتب عشان أفضّل أفضّل أفكّر فيكي.
+وعشان كل كلمة بكتبها فيكي بتزيدني يقين إني محتاجك في حياتي.
+
+سواء كنا بنتكلم، أو ساكتين، أو حتى بنختلف... أنا دايماً حاسس إنك الشخص اللي مكملني.
+
+ربنا يخليكي ليّا، ويخليني ليكي، ويديني القدرة إني أفرحك كل يوم زي ما بتفرحيني.
+وعد مني إني مش هسيبك تحسي إنك لوحدك، هكون معاكي في كل حاجة.
+
+أنا بحبك مش بس عشان إنتي حلوة... أنا بحبك عشان إنتي يا شذوذتي. ❤️`;
+
+let tIdx=0;
+let tSpeed=1;
+let tTimer=null;
+let tDone=false;
+
+function startTypewriter(){
+  tIdx=0;
+  tDone=false;
+
+  document.getElementById('typewriter-text').innerHTML='<span class="cursor">|</span>';
+  document.getElementById('speed-btns').style.display='flex';
+  document.getElementById('btn-continue').style.display='none';
+
+  typeNext();
+}
+
+function typeNext(){
+  if(tDone)return;
+
+  tTimer=setTimeout(()=>{
+    if(tIdx>=LOVE_TEXT.length){
+      tDone=true;
+
+      document.getElementById('typewriter-text').innerHTML=
+        LOVE_TEXT.replace(/\n/g,'<br>');
+
+      document.getElementById('speed-btns').style.display='none';
+      document.getElementById('btn-continue').style.display='inline-block';
+
+      return;
+    }
+
+    tIdx++;
+
+    document.getElementById('typewriter-text').innerHTML=
+      LOVE_TEXT.slice(0,tIdx).replace(/\n/g,'<br>')+
+      '<span class="cursor">|</span>';
+
+    const box=document.getElementById('typewriter-box');
+    box.scrollTop=box.scrollHeight;
+
+    typeNext();
+  },Math.round(55/tSpeed));
+}
+
+function setSpeed(s,btn){
+  tSpeed=s;
+
+  document.querySelectorAll('.speed-btn').forEach(b=>{
+    b.classList.remove('active');
+  });
+
+  btn.classList.add('active');
+
+  clearTimeout(tTimer);
+  typeNext();
+}
+
+// ===== VALIDATE Q1 =====
+function validateQ1(){
+  const slider=document.getElementById('love-slider');
+  const val=parseInt(slider.value);
+
+  if(val===50){
+    alert("لازم تحركي المؤشر الأول! 😉");
+    return;
+  }
+
+  showQ(2);
+}
+
+// ===== Q2 =====
+function handleQ2Choice(btn,isDefaultNoAngry){
+  if(isDefaultNoAngry||btn.getAttribute('data-transformed')==='true'){
+    showQ(3);
+  }else{
+    btn.textContent="خالص 😌";
+
+    btn.classList.remove('choice-secondary');
+    btn.classList.add('choice-primary');
+
+    btn.setAttribute('data-transformed','true');
+
+    btn.style.transform="scale(1.1)";
+
+    setTimeout(()=>{
+      btn.style.transform="";
+    },200);
+  }
+}
+</script>
+
+</body>
+</html>

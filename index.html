@@ -1,0 +1,672 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>𝑆 💞</title>
+
+<meta name="description" content="هديـة لعيـون احلـى شـذى فـي العـالم 🎀">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="𝑆 💞 | هدية صغنونة ليكي">
+<meta property="og:description" content="في حاجة صغيرة مستنياكي... 🌷💗 مستعدة للمفاجأة؟">
+<meta property="og:image" content="https://YOUR-DOMAIN.com/m/m.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://YOUR-DOMAIN.com/">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://YOUR-DOMAIN.com/m/m.jpg">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --pink: #ff80a8;
+  --deep: #d94e83;
+  --bg: #fff5f8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: 'Cairo', sans-serif;
+  background:
+    radial-gradient(circle at 20% 20%, #ffe1eb 0, transparent 35%),
+    radial-gradient(circle at 80% 80%, #f9d9e7 0, transparent 40%),
+    linear-gradient(135deg, #fff8fa, #ffeaf1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #633b4d;
+}
+
+canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.glow {
+  position: fixed;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  background: #ffb6ce;
+  filter: blur(110px);
+  opacity: .25;
+  animation: glow 6s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { transform: scale(.8); opacity: .15; }
+  to { transform: scale(1.3); opacity: .35; }
+}
+
+.container {
+  width: min(90%, 410px);
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.intro {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+  animation: introOut 1.2s ease 3.3s forwards;
+  pointer-events: none;
+}
+
+.intro-flower {
+  font-size: 75px;
+  filter: drop-shadow(0 8px 15px #e99bb8);
+  animation: flowerFloat 2s ease-in-out infinite;
+}
+
+.intro p {
+  font-size: 17px;
+  color: #b65d80;
+  letter-spacing: 1px;
+}
+
+@keyframes flowerFloat {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  50% { transform: translateY(-15px) rotate(8deg); }
+}
+
+@keyframes introOut {
+  to { opacity: 0; transform: translateY(-25px); visibility: hidden; }
+}
+
+.panel {
+  opacity: 0;
+  transform: translateY(25px) scale(.96);
+  animation: panelIn 1s ease 3.7s forwards;
+}
+
+@keyframes panelIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.card {
+  padding: 36px 23px 30px;
+  border: 1px solid rgba(255,255,255,.9);
+  border-radius: 30px;
+  background: rgba(255,255,255,.65);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 20px 60px rgba(194, 104, 139, .13),
+    inset 0 1px 0 white;
+}
+
+.small-flower {
+  font-size: 34px;
+  margin-bottom: 8px;
+  display: inline-block;
+  animation: flowerFloat 3s ease-in-out infinite;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #b94e78;
+  margin-bottom: 7px;
+}
+
+.subtitle {
+  color: #a77b8c;
+  font-size: 13px;
+  margin-bottom: 28px;
+}
+
+.otp-area {
+  display: flex;
+  direction: ltr;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 0 auto 24px;
+}
+
+.otp {
+  width: 43px;
+  height: 55px;
+  border: 1.5px solid #f2c6d6;
+  border-radius: 13px;
+  outline: none;
+  background: rgba(255,255,255,.85);
+  text-align: center;
+  font-family: 'Cairo', sans-serif;
+  font-size: 23px;
+  font-weight: 700;
+  color: #c04d7b;
+  transition: .25s ease;
+  caret-color: #d94e83;
+}
+
+.otp:focus {
+  border-color: #e778a1;
+  box-shadow: 0 0 0 4px rgba(231,120,161,.13);
+  transform: translateY(-3px);
+}
+
+.otp.filled {
+  background: #fff0f5;
+  border-color: #e99ab7;
+}
+
+.dash {
+  color: #e5a0b8;
+  font-weight: 700;
+  font-size: 19px;
+}
+
+.submit-btn {
+  width: 100%;
+  border: none;
+  padding: 13px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #f48bb0, #d95d8a);
+  color: white;
+  font-family: 'Cairo', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(217,93,138,.25);
+  transition: .25s;
+}
+
+.submit-btn:active {
+  transform: scale(.97);
+}
+
+.submit-btn:disabled {
+  opacity: .65;
+  cursor: wait;
+}
+
+.message {
+  min-height: 27px;
+  margin-top: 17px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #d94e83;
+  opacity: 0;
+  transition: .3s;
+}
+
+.message.show {
+  opacity: 1;
+}
+
+.shake {
+  animation: shake .45s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-9px); }
+  40%, 80% { transform: translateX(9px); }
+}
+
+.otp-area.merging {
+  animation: merge .7s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+@keyframes merge {
+  0% { gap: 8px; transform: scale(1); }
+  45% { gap: 0; transform: scale(1.08); }
+  100% { gap: 0; transform: scale(1); }
+}
+
+.otp.merged {
+  width: 100%;
+  border-radius: 15px;
+  border-color: #e778a1;
+  background: #fff0f5;
+}
+
+.card.success {
+  animation: successPulse .8s ease;
+}
+
+@keyframes successPulse {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.035); box-shadow: 0 0 45px #f7b0ca; }
+  100% { transform: scale(1); }
+}
+
+.loading {
+  display: none;
+  margin-top: 15px;
+  color: #c15a83;
+  font-size: 13px;
+}
+
+.loading.show {
+  display: block;
+}
+
+.dots::after {
+  content: '';
+  animation: dots 1.2s steps(4,end) infinite;
+}
+
+@keyframes dots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75%, 100% { content: '...'; }
+}
+
+.footer {
+  margin-top: 20px;
+  color: #c28a9f;
+  font-size: 11px;
+}
+
+/* ورود الورود */
+.flower {
+  position: fixed;
+  font-size: 24px;
+  z-index: 7;
+  pointer-events: none;
+  animation: flowerBurst 2.8s ease-out forwards;
+}
+
+@keyframes flowerBurst {
+  0% { opacity: 0; transform: scale(.2) rotate(0); }
+  15% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate(var(--x), var(--y)) rotate(300deg) scale(1.4);
+  }
+}
+
+@media(max-width: 380px) {
+  .otp { width: 38px; height: 51px; }
+  .otp-area { gap: 6px; }
+  .card { padding: 30px 16px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="glow"></div>
+<canvas id="scene"></canvas>
+
+<div class="intro" id="intro">
+  <div class="intro-flower">🌷</div>
+  <p>في حاجة صغيرة مستنياكي...</p>
+</div>
+
+<main class="container">
+  <section class="panel">
+    <div class="card" id="card">
+
+      <div class="small-flower">🌸</div>
+
+      <h1>هدية صغنونة ليكي</h1>
+      <p class="subtitle">اكتبي تاريخ ميلادي عشان نكمل ✨</p>
+
+      <div class="otp-area" id="otpArea">
+        <input class="otp" maxlength="1" inputmode="numeric" autocomplete="one-time-code" aria-label="الرقم الأول">
+        <span class="dash">-</span>
+        <input class="otp" maxlength="1" inputmode="numeric" aria-label="الرقم الثاني">
+        <span class="dash">-</span>
+        <input class="otp" maxlength="1" inputmode="numeric" aria-label="الرقم الثالث">
+        <input class="otp" maxlength="1" inputmode="numeric" aria-label="الرقم الرابع">
+        <input class="otp" maxlength="1" inputmode="numeric" aria-label="الرقم الخامس">
+        <input class="otp" maxlength="1" inputmode="numeric" aria-label="الرقم السادس">
+      </div>
+
+      <button class="submit-btn" id="submitBtn" onclick="checkPassword()">
+        تأكيد الكود ✨
+      </button>
+
+      <div class="loading" id="loading">
+        بنراجع الكود<span class="dots"></span>
+      </div>
+
+      <div class="message" id="message"></div>
+
+    </div>
+
+    <div class="footer">هبهرك 🤭🌷</div>
+  </section>
+</main>
+
+<script>
+/* =========================
+   Canvas background
+   25 FPS target
+========================= */
+
+const canvas = document.getElementById('scene');
+const ctx = canvas.getContext('2d');
+
+let width, height;
+let lastFrame = 0;
+const frameInterval = 1000 / 25;
+let particles = [];
+
+function resizeCanvas() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  width = window.innerWidth;
+  height = window.innerHeight;
+
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function createParticles() {
+  particles = Array.from({length: 35}, () => ({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    size: Math.random() * 4 + 1,
+    speed: Math.random() * .35 + .15,
+    opacity: Math.random() * .4 + .1,
+    drift: Math.random() * .5 - .25
+  }));
+}
+
+createParticles();
+
+function drawScene(timestamp) {
+  requestAnimationFrame(drawScene);
+
+  if (timestamp - lastFrame < frameInterval) return;
+  lastFrame = timestamp;
+
+  ctx.clearRect(0, 0, width, height);
+
+  particles.forEach(p => {
+    p.y -= p.speed;
+    p.x += p.drift;
+
+    if (p.y < -10) {
+      p.y = height + 10;
+      p.x = Math.random() * width;
+    }
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(226, 126, 163, ${p.opacity})`;
+    ctx.fill();
+  });
+}
+
+requestAnimationFrame(drawScene);
+
+/* =========================
+   OTP system
+========================= */
+
+const inputs = [...document.querySelectorAll('.otp')];
+const otpArea = document.getElementById('otpArea');
+const message = document.getElementById('message');
+const loading = document.getElementById('loading');
+const submitBtn = document.getElementById('submitBtn');
+const card = document.getElementById('card');
+
+let locked = false;
+
+inputs.forEach((input, index) => {
+  input.addEventListener('input', () => {
+    if (locked) return;
+
+    input.value = input.value.replace(/\D/g, '').slice(-1);
+
+    if (input.value) {
+      input.classList.add('filled');
+      if (index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      }
+    } else {
+      input.classList.remove('filled');
+    }
+
+    message.classList.remove('show');
+    message.textContent = '';
+
+    if (inputs.every(item => item.value !== '')) {
+      setTimeout(checkPassword, 250);
+    }
+  });
+
+  input.addEventListener('keydown', event => {
+    if (locked) return;
+
+    if (event.key === 'Backspace' && !input.value && index > 0) {
+      inputs[index - 1].focus();
+    }
+
+    if (event.key === 'Enter') {
+      checkPassword();
+    }
+  });
+
+  input.addEventListener('paste', event => {
+    event.preventDefault();
+    const pasted = (event.clipboardData || window.clipboardData)
+      .getData('text')
+      .replace(/\D/g, '')
+      .slice(0, 6);
+
+    pasted.split('').forEach((digit, i) => {
+      inputs[i].value = digit;
+      inputs[i].classList.add('filled');
+    });
+
+    if (pasted.length === 6) {
+      checkPassword();
+    } else {
+      inputs[Math.min(pasted.length, 5)].focus();
+    }
+  });
+});
+
+function showMessage(text) {
+  message.textContent = text;
+  message.classList.add('show');
+}
+
+function resetInputs() {
+  inputs.forEach(input => {
+    input.value = '';
+    input.classList.remove('filled', 'merged');
+  });
+
+  otpArea.classList.remove('merging');
+  inputs[0].focus();
+  locked = false;
+  submitBtn.disabled = false;
+  submitBtn.style.display = 'block';
+}
+
+function checkPassword() {
+  if (locked) return;
+
+  const code = inputs.map(input => input.value).join('');
+
+  if (code.length !== 6) {
+    showMessage('كمّلي الأرقام الأول 🌸');
+    return;
+  }
+
+  locked = true;
+  submitBtn.disabled = true;
+  message.classList.remove('show');
+
+  // تجميع الخانات
+  otpArea.classList.add('merging');
+
+  setTimeout(() => {
+    inputs.forEach(input => input.classList.add('merged'));
+    loading.classList.add('show');
+    submitBtn.style.display = 'none';
+  }, 450);
+
+  setTimeout(() => {
+    loading.classList.remove('show');
+
+    if (code === '792008') {
+      correctPassword();
+    } else {
+      wrongPassword();
+    }
+  }, 1800);
+}
+
+/* =========================
+   Wrong password
+========================= */
+
+function wrongPassword() {
+  card.classList.add('shake');
+
+  inputs.forEach(input => {
+    input.style.borderColor = '#e76b79';
+    input.style.color = '#d94e65';
+  });
+
+  showMessage('منتي لو مهتمة كنتي عرفتي 😒💔');
+
+  setTimeout(() => {
+    card.classList.remove('shake');
+
+    inputs.forEach(input => {
+      input.style.borderColor = '';
+      input.style.color = '';
+    });
+
+    setTimeout(() => {
+      message.classList.remove('show');
+      resetInputs();
+    }, 1700);
+  }, 500);
+}
+
+/* =========================
+   Success celebration
+========================= */
+
+function createFlowerBurst() {
+  const flowers = ['🌸', '🌷', '🌹', '💮', '🌺', '✨'];
+
+  for (let i = 0; i < 32; i++) {
+    const flower = document.createElement('div');
+    flower.className = 'flower';
+    flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+
+    flower.style.left = Math.random() * 100 + 'vw';
+    flower.style.top = Math.random() * 100 + 'vh';
+    flower.style.setProperty('--x', (Math.random() * 300 - 150) + 'px');
+    flower.style.setProperty('--y', (Math.random() * 300 - 150) + 'px');
+
+    document.body.appendChild(flower);
+    setTimeout(() => flower.remove(), 3000);
+  }
+}
+
+function createConfetti() {
+  const colors = ['#ff83aa', '#ffd166', '#c9a0dc', '#ffb5c8', '#ffffff'];
+
+  for (let i = 0; i < 150; i++) {
+    const piece = document.createElement('div');
+
+    piece.style.cssText = `
+      position:fixed;
+      z-index:10;
+      top:${Math.random() * 70}%;
+      ${Math.random() > .5 ? 'left:-15px' : 'right:-15px'};
+      width:${Math.random() * 9 + 5}px;
+      height:${Math.random() * 14 + 7}px;
+      background:${colors[Math.floor(Math.random() * colors.length)]};
+      border-radius:3px;
+      pointer-events:none;
+      animation: confettiFly ${Math.random() * 1.5 + 1.5}s ease-out forwards;
+    `;
+
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), 3500);
+  }
+}
+
+const style = document.createElement('style');
+style.textContent = `
+@keyframes confettiFly {
+  0% {
+    opacity: 1;
+    transform: translate(0,0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(${Math.random() > .5 ? '-' : ''}150px, 400px)
+               rotate(720deg);
+  }
+}`;
+document.head.appendChild(style);
+
+function correctPassword() {
+  card.classList.add('success');
+
+  createFlowerBurst();
+  createConfetti();
+
+  showMessage('الكود صح... يلا نكمل 🌷');
+
+  setTimeout(() => {
+    document.body.style.transition = 'opacity 1s ease';
+    document.body.style.opacity = '0';
+
+    setTimeout(() => {
+      window.location.href = '2.html';
+    }, 1000);
+  }, 1800);
+}
+</script>
+
+</body>
+</html>
